@@ -1,0 +1,200 @@
+#importing function load_iris from module of library scikit-learn called sklearn.datasets
+from sklearn.datasets import load_iris
+#store the return value of load_iris() function in an object called iris 
+#iris here is a container called bunch which stores datasets and their attributes
+iris = load_iris()
+#print the iris data which is one of the attribute
+print(iris.data)
+#print the names of the four features
+print(iris.feature_names)
+#print integers representing four features of iris dataset
+print(iris.target)
+#print names of those four species
+print(iris.target_names)
+
+
+
+--------------------------------------------------------------------------------------
+#Implementation of model using KNN algo
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+iris = load_iris()
+
+#storing feature(matrix - 2D array)
+X = iris.data
+#storing target(vector - 1D array)
+y = iris.target
+
+#make instance of the class
+knn = KNeighborsClassifier(n_neighbors=1)
+#train the model using fit() method
+knn = knn.fit(X,y)
+#predict the specie for unknown observation using pedict method and verify the training
+prediction = knn.predict([[3,5,4,2]])
+print("Predicted species:", iris.target_names[prediction[0]])
+
+
+
+
+
+----------------------------------------------------------------------------------------
+
+#Verifying if LogisticRegression model outputs the correct prediction value or not
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+#metrics is a module used to check accuracy of our module
+from sklearn import metrics
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+logreg = LogisticRegression()
+logreg.fit(X,y)
+#we store the prediction results in y_pred variable and X represents data on which my model is making predictions
+y_pred = logreg.predict(X)
+len(y_pred)
+#We use metrics_accuracy function to print out our accuracy of LogisticRegression model
+#Proportion of correct predictions
+#We call it as training accuracy when we train and test on the same data
+print(metrics.accuracy_score(y,y_pred))
+
+
+-------------------------------------------------------------------------------------
+#Verifying if KNeighborsClassifier model outputs the correct prediction value or not
+#Overfitting refers to excessive training of the model because of which it gets confused and predicts wrong.
+#Underfitting refers to less training of the model because of which it has less knowledge and predicts wrong.
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+#metrics is a module used to check accuracy of our module
+from sklearn import metrics
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+knn = KNeighborsClassifier(n_neighbors=1)
+knn.fit(X,y)
+#we store the prediction results in y_pred variable and X represents data on which my model is making predictions
+y_pred = knn.predict(X)
+len(y_pred)
+#We use metrics_accuracy function to print out our accuracy of KNeighborsClassifier model
+#Proportion of correct predictions
+#We call it as training accuracy when we train and test on the same data
+print(metrics.accuracy_score(y,y_pred))
+
+
+-------------------------------------------------------------------------------------
+#Another approach to check the correctness of our model prediction is train/test split method
+#Steps
+#Step 1 - Split the dataset into two sets the training set and the testing set
+#Step 2  - Train the model on training set
+#Step 3 - Test the model on testing set
+#In this approch we apply our model to the test data and compare the actual output with the predicted one.
+#Since here we are using different data in our model for prediction it acts as a better way to judge our model accuracy than training our model with the same data
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+logreg = LogisticRegression()
+#test_size=0.4 means 40% of the data is assigned to testing data and remaining for training data.
+#random_state=4 means dataset would be divided into same pieces every single time you run the program.
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.4, random_state=4)
+
+#Training using training data
+logreg.fit(X_train,y_train)
+#Predicting on testing data
+y_pred = logreg.predict(X_test)
+
+print(metrics.accuracy_score(y_test,y_pred))
+
+#checking if splitting is done properly
+print(X_train.shape)
+print(X_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+
+---------------------------------------------------------------------------------------
+#Another approach to check the correctness of our model prediction is train/test split method
+#Steps
+#Step 1 - Split the dataset into two sets the training set and the testing set
+#Step 2  - Train the model on training set
+#Step 3 - Test the model on testing set
+#In this approch we apply our model to the test data and compare the actual output with the predicted one.
+#Since here we are using different data in our model for prediction it acts as a better way to judge our model accuracy than training our model with the same data
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+logreg = LogisticRegression()
+#test_size=0.4 means 40% of the data is assigned to testing data and remaining for training data.
+#random_state=4 means dataset would be divided into same pieces every single time you run the program.
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.4, random_state=4)
+
+#Training using training data
+logreg.fit(X_train,y_train)
+#Predicting on testing data
+y_pred = logreg.predict(X_test)
+
+print(metrics.accuracy_score(y_test,y_pred))
+
+#checking if splitting is done properly
+print(X_train.shape)
+print(X_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+
+
+-----------------------------------------------------------------------------------------
+#Another approach to check the correctness of our model prediction is train/test split method
+#Steps
+#Step 1 - Split the dataset into two sets the training set and the testing set
+#Step 2  - Train the model on training set
+#Step 3 - Test the model on testing set
+#In this approch we apply our model to the test data and compare the actual output with the predicted one.
+#Since here we are using different data in our model for prediction it acts as a better way to judge our model accuracy than training our model with the same data
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import metrics
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+knn = KNeighborsClassifier(n_neighbors=11)
+#test_size=0.4 means 40% of the data is assigned to testing data and remaining for training data.
+#random_state=4 means dataset would be divided into same pieces every single time you run the program.
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.4, random_state=4)
+
+#Training using training data
+knn.fit(X_train,y_train)
+#Predicting on testing data
+y_pred = knn.predict(X_test)
+
+print(metrics.accuracy_score(y_test,y_pred))
+
+#checking if splitting is done properly
+print(X_train.shape)
+print(X_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+
+----------------------------------------------------------------------------------------
+#We find out that KNeighborsClassfier model with parameter value as 11 is the most accurate model for predicting our iris dataset
+#train/test split is usefull due to flexibility and speed

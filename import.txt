@@ -1,0 +1,13 @@
+#importing function load_iris from module of library scikit-learn called sklearn.datasets
+from sklearn.datasets import load_iris
+#store the return value of load_iris() function in an object called iris 
+#iris here is a container called bunch which stores datasets and their attributes
+iris = load_iris()
+#print the iris data which is one of the attribute
+print(iris.data)
+#print the names of the four features
+print(iris.feature_names)
+#print integers representing four features of iris dataset
+print(iris.target)
+#print names of those four species
+print(iris.target_names)

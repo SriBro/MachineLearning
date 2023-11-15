@@ -1,0 +1,20 @@
+#Verifying if LogisticRegression model outputs the correct prediction value or not
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+#metrics is a module used to check accuracy of our module
+from sklearn import metrics
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+logreg = LogisticRegression()
+logreg.fit(X,y)
+#we store the prediction results in y_pred variable and X represents data on which my model is making predictions
+y_pred = logreg.predict(X)
+len(y_pred)
+#We use metrics_accuracy function to print out our accuracy of LogisticRegression model
+#Proportion of correct predictions
+#We call it as training accuracy when we train and test on the same data
+print(metrics.accuracy_score(y,y_pred))

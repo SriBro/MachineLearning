@@ -1,0 +1,17 @@
+#Implementation of model using KNN algo
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+iris = load_iris()
+
+#storing feature(matrix - 2D array)
+X = iris.data
+#storing target(vector - 1D array)
+y = iris.target
+
+#make instance of the class
+knn = KNeighborsClassifier(n_neighbors=1)
+#train the model using fit() method
+knn = knn.fit(X,y)
+#predict the specie for unknown observation using pedict method and verify the training
+prediction = knn.predict([[3,5,4,2]])
+print("Predicted species:", iris.target_names[prediction[0]])
