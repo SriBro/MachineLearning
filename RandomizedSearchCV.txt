@@ -1,0 +1,23 @@
+#RandomizedSearchCV - Reducing computational "budget". Basically, here we are deciding hpw many times our cross-validation technique should run optimally
+#rather than letting it run in its entirety in order to reduce computational power.
+
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import RandomizedSearchCV
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+k_range = range(1,31)
+weight_options = ['uniform','distance']
+knn = KNeighborsClassifier()
+param_dist = dict(n_neighbors = k_range, weights=weight_options)
+#n_iter controls the number of searches
+rand = RandomizedSearchCV(knn,param_dist,cv=10,scoring='accuracy',n_iter=10,random_state=5)
+rand.fit(X,y)
+
+#The parameter value here is 18 not 13 as we are serching in a limited fashion
+print(rand.best_score_)
+print(rand.best_params_)

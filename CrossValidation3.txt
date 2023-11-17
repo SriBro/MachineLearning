@@ -1,0 +1,22 @@
+#Cross Validation in Regression problems
+#Cross Validation is helpfull in both Classification and Regression problems.
+#For classification, we use scoring = 'accuracy' which is a reward function, meaning higher the value it has higher is the accuracy
+#For regression, we use scoring = 'neg_mean_squared_error' which is a loss function, meaning higher the value it has lower is the accuracy
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression
+
+data = pd.read_csv("advertising.csv")
+feature_cols = ['TV','Radio']
+X = data[feature_cols]
+y = data.Sales
+
+lm = LinearRegression()
+scores = cross_val_score(lm,X,y,cv=10,scoring='neg_mean_squared_error')
+
+#fix the sign of scores
+mse_scores = -scores
+rmse_scores = np.sqrt(mse_scores)
+print(rmse_scores.mean())

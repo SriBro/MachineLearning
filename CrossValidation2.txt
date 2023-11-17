@@ -1,0 +1,30 @@
+#Cross Validation - Finding out which k value has the highest testing accuracy
+
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.model_selection import cross_val_score
+import numpy as np
+import matplotlib.pyplot as plt
+
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+
+k_range = range(1,31)
+k_scores = []
+for k in k_range:
+  knn = KNeighborsClassifier(n_neighbors=k)
+  scores = cross_val_score(knn,X,y,cv=10,scoring='accuracy')
+  k_scores.append(scores.mean())
+print(k_scores)
+max_value = np.amax(k_scores)
+indices = np.where(k_scores == max_value)
+print("K values with highest prediction accuracy: ",indices," which is: ",max_value)
+
+#Graphical format of how K value affects Cross-Validated accuracy
+
+%matplotlib inline
+plt.plot(k_range,k_scores)
+plt.xlabel("Value of K for KNN")
+plt.ylabel("Cross-Validated Accuracy")

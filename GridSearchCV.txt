@@ -1,0 +1,32 @@
+#Using GridSearchCV technique to find the best k value for our model accuracy which is quite an easy method
+#import libraries
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+import matplotlib.pyplot as plt
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+knn = KNeighborsClassifier()
+k_range = range(1,31)
+param_grid = dict(n_neighbors=k_range)
+
+#Make grid instance
+grid = GridSearchCV(knn,param_grid,cv=10,scoring='accuracy')
+#fit grid instance
+grid.fit(X,y)
+#print results of each mean of testing accuracy of 30 samples
+grid_mean_scores = grid.cv_results_['mean_test_score']
+#Print mean of test score for all samples
+print(grid_mean_scores)
+#examine the first tuple
+print(grid.cv_results_['params'][0])
+
+
+plt.plot(k_range,grid_mean_scores)
+plt.xlabel("Values of K for KNN")
+plt.ylabel("Cross-Validated accuracy")
+

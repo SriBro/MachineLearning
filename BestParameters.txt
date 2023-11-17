@@ -1,0 +1,23 @@
+#Best parameters to use - n_neighbors=13,weights='uniform'(Inference by all previous studies)
+
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+k_range = range(1,31)
+weight_options = ['uniform','distance']
+param_grid = dict(n_neighbors = k_range, weights=weight_options)
+grid = GridSearchCV(knn,param_grid,cv=10,scoring='accuracy')
+grid.fit(X,y)
+
+knn = KNeighborsClassifier(n_neighbors=13,weights='uniform')
+knn.fit(X,y)
+# knn.predict([[3,5,4,2]])
+
+#short-cut : GridSearchCV automatically refits the best model using all of the data
+grid.predict([[3,5,4,2]])

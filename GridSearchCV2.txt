@@ -1,0 +1,40 @@
+#Using GridSearchCV technique with the involvment of weights
+
+#import libraries
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import GridSearchCV
+import matplotlib.pyplot as plt
+
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+knn = KNeighborsClassifier()
+
+# plt.plot(k_range,grid_mean_scores)
+# plt.xlabel("Values of K for KNN")
+# plt.ylabel("Cross-Validated accuracy")
+
+k_range = range(1,31)
+
+#Seacrhing multiple parameters simultaneously
+#Searching multiple parameters so that we can change their values and achieve best performance
+
+#define the parameter value that should be searched 
+k_range = range(1,31)
+#uniform is that all nearest neighbors are weighted equally while distance is where closer neighbors are weighed heavily than distant neighbors
+weight_options = ['uniform','distance']
+
+#create a parameter grid : map the parameter names to the values that should be searched 
+param_grid = dict(n_neighbors = k_range, weights=weight_options)
+
+#Instatiate and fit the grid
+grid = GridSearchCV(knn,param_grid,cv=10,scoring='accuracy')
+grid.fit(X,y)
+#print the best parameter which gives highest testing accuracy
+print(grid.best_params_)
+#print its best score
+print(grid.best_score_)
+

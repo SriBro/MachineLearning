@@ -1,0 +1,42 @@
+#syntax to upload files from local file system
+from google.colab import files
+
+uploaded = files.upload()
+
+#pandas is a library for data exploration, manipulation and analysis and it is built on NumPy 
+import pandas as pd
+#seaborn is a library for data visualization
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+data = pd.read_csv('advertising.csv')
+data.head()
+
+#known as magic command, it helps the plot appear for us
+%matplotlib inline
+
+#using pairplot() method we are drawing relationship between Sales and TV,Radio,Newspaper
+# sns.pairplot(data,x_vars=['TV','Radio','Newspaper'], y_vars = 'Sales',size=7,kind='reg')
+
+#Linear regression(LR) is a popular modelling technique but is unlikely to produce the best prediction accuracy
+#Modelling LR by preparing X and y values of pandas
+
+#create a python list of feature names
+feature_cols = ['TV','Radio','Newspaper']
+
+X = data[feature_cols]
+X.head()
+print(type(X))
+print(X.shape)
+
+#select a series from the data frame
+y = data['Sales']
+y.head()
+print(type(y))
+print(y.shape)
+
+#Splitting our dataset into training and testing data
+X_train, X_test, y_train, y_test = train_test_split(X,y,random_state=1)
+print(X_train.shape)
+print(X_test.shape)
+print(y_train.shape)
+print(y_test.shape)

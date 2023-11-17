@@ -1,0 +1,29 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+data = pd.read_csv('advertising.csv')
+feature_cols = ['TV','Radio']
+X = data[feature_cols]
+y = data['Sales']
+linreg = LinearRegression()
+X_train,X_test,y_train,y_test = train_test_split(X,y,random_state=1)
+linreg.fit(X_train,y_train)
+#print the intercept and co-efficients
+print(linreg.intercept_)
+print(linreg.coef_)
+# Pair the feature names and the coefficients
+coefficients = list(zip(feature_cols, linreg.coef_))
+
+# Print the feature names and coefficients
+for feature, coef in coefficients:
+    print(f"{feature} : {coef}")
+
+#As our dataset is based on advertisement csv file every unit increase in TV add spending there is a 0.0548376196262162 increase in sales for a given amount of Radio and Newspaper
+#Due to such simple interpretability, LR is so popular model
+
+#Make predictions on testing set
+y_pred = linreg.predict(X_test)
+#Calculate RMSE(Root mean squared error) value for making predictions
+print("RMSE value for prediction: ",np.sqrt(metrics.mean_squared_error(y_test,y_pred)))

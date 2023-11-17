@@ -1,0 +1,34 @@
+#Cross Validation - calculating testing accuracy
+
+#When we use train_test_split method to divide our data into training and testing data, based on random_state value our testing accuracy value differs everytime
+#This difference is called variance and high variance is a problem in train_test_split() method
+#Cross Validation is a technique to overcome this high variance problem and minimize it 
+#One  of those Cross-validation techniques is K-fold cross validation
+
+#Steps for K-fold cross validation
+
+#Step 1 - Split the dataset into K equal partitions(or "folds"). K=10 is recommended number.
+#Step 2 - Use fold 1 as the testing set and the union of other folds as training set
+#Step 3 - Train the model on the basis of training data. Test it on the basis of testing data and calculate testing accuracy.
+#Step 4 - Repeat step 2 and step 3 K times, using a different fold as the testing set each time.
+#Step 5 - Use the average testing-accuracy as the estimate of out-of-sample accuracy.
+
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.model_selection import cross_val_score
+
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+#It is seen that extreme low value of k and extreme high value of k produce less accurate predictions 
+#So k value of middle number is always suitable
+#knn = KNeighborsClassifier(n_neighbors = 5) - extreme low value
+#knn = KNeighborsClassifier(n_neighbors=30) - extreme high value
+knn = KNeighborsClassifier(n_neighbors=13) #middle value which is perfect
+#cv=10 - cross validation and 10 refers to 10 folds
+#cross_val_scores performs firts four Steps of K-fold cross validation and prints all the testing scores as a NumPy array
+scores = cross_val_score(knn,X,y,cv=10,scoring='accuracy')
+print(scores)
+#print mean of all the testing accuracies
+print(scores.mean())
