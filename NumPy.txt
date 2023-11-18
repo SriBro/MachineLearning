@@ -1,0 +1,17 @@
+#NumPy array
+#importing all the functionalities that numpy array provides into np
+import numpy as np
+
+#object in a numpy array is called as ndarray
+#Arithmetic operations
+num1 = np.array([2,4,6])
+num2 = np.array([2,4,6])
+print(np.add(num1,num2))
+print(np.subtract(num2,num1))
+print(np.multiply(num1,num2))
+print(np.divide(num2,num1))
+print(np.power(num1,num2))
+#prints the average number of all the elements of the num1 array
+print(np.mean(num1))
+#prints the square root number of all the elements of the num1 array
+print(np.sqrt(num1))
