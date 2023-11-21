@@ -1,0 +1,81 @@
+#Step1 - import 
+#Step2 - split into training and testing data
+#Step3 - make a CountVectorizer instance for converting my training data into a document term matrix
+#Step4 - Convert training data and testing data into document term matrices(dtm's) using the CountVectorizer instance
+#Step5 - use naive bayes model to train on dtm's 
+#Step6 - print falsely predicted ham and spam messages
+#Step7 - deal with tokens,ham and spam
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import metrics
+sms = pd.read_table('sms.tsv')
+sms['label_num'] = sms.label.map({'ham' : 0, 'spam' : 1})
+X = sms.message
+y = sms.label_num
+sms.label.value_counts()
+X_train, X_test, y_train, y_test = train_test_split(X,y,random_state=1)
+vect = CountVectorizer()
+X_train_dtm = vect.fit_transform(X_train)
+X_train_dtm
+#We do not do a fit() for testing data
+X_test_dtm = vect.transform(X_test)
+X_test_dtm
+#creating instance of naive bayes model
+nb = MultinomialNB()
+nb.fit(X_train_dtm,y_train)
+#make class predictions on testing data
+y_pred_class = nb.predict(X_test_dtm)
+#calculate accuracy
+metrics.accuracy_score(y_pred_class,y_test)
+#print confusion matrix for testing data
+metrics.confusion_matrix(y_test,y_pred_class)
+#print message text for false positives 
+#i.e messages that are falsely predicted as spam but they actually are ham
+X_test[y_pred_class > y_test]
+#print message text for false negatives(FN)
+#i.e messages that are falsely predicted as ham but they actually are spam
+X_test[y_pred_class < y_test]
+#examine one row of FN
+X_test[3132]
+#calculate predicted probability meaning probability that the model will predict '1'(spam)
+#[:,-1] means all rows of column 1
+y_pred_prob = nb.predict_proba(X_test_dtm)[:,1]
+y_pred_prob
+#calculate (AUC) i.e Area Under the curve which is related to  accuracy
+metrics.roc_auc_score(y_test,y_pred_class)
+#store vocabulary of train
+X_train_tokens = vect.get_feature_names_out()
+len(X_train_tokens)
+#examine first 50 tokens
+print(X_train_tokens[0:50])
+#examine last 50 tokens
+print(X_train_tokens[-50:])
+#Naive bayes counts the number of each token appearing in each class
+#Here this matrix implies that the first token occurs 0 times in ham and 5 times in spam
+#The more a token occurs in ham, it will predict it as ham message and same goes for spam
+nb.feature_count_
+#rows represent classes and columns represent tokens
+nb.feature_count_.shape
+#number of times each token appears across all ham messages
+ham_token_count = nb.feature_count_[0,:]
+#number of times each token appears across all spam messages
+spam_token_count = nb.feature_count_[1,:]
+#creating a data frame with number of tokens and thier corresponding ham and spam counts
+data = {'token': X_train_tokens, 'ham':ham_token_count, 'spam':spam_token_count}
+tokens = pd.DataFrame(data)
+tokens
+#examine 5 random sample of tokens data frame
+tokens.sample(5,random_state=6)
+#calculate number of observations in each class
+nb.class_count_
+#Add 1 to ham and spam to avoid dividing by zero
+tokens['ham'] = tokens.ham+1
+tokens['spam'] = tokens.spam+1
+tokens.sample(5,random_state=6)
+#calculate spam ration for each token
+tokens['spam_ratio'] = tokens.spam/tokens.ham
+tokens
+#sort those spam ration
+tokens.sort_values('spam_ratio',ascending=False)
