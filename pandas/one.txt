@@ -1,0 +1,56 @@
+#Selecting a pandas Series from a data frame
+import pandas as pd
+ufo = pd.read_csv('http://bit.ly/uforeports')
+type(ufo)
+#Displaying just the City Series
+ufo['City']
+ufo.City
+#You have to use the bracket notation if the Series has space inside it
+ufo['Colors Reported']
+#Creating a new Column which contains both - City as well as State
+ufo['Location'] = ufo.City+' , '+ufo.State
+ufo.head()
+
+ufo.head()
+
+#Pandas methods with paranthesis(methods) and no paranthesis(attributes)
+movies = pd.read_csv('http://bit.ly/imdbratings')
+movies.head()
+movies.describe()
+movies.shape
+movies.dtypes
+type(movies)
+#Will only describe about those columns having the type as an object
+movies.describe(include = ['object'])
+
+#Renaming a column in a data frame
+import pandas as pd
+ufo = pd.read_csv('http://bit.ly/uforeports')
+ufo.head()
+ufo.columns
+ufo.rename({'Colors Reported' : 'Colors_Reported',  'Shape Reported' : 'Shape_Reported'},inplace=True)
+ufo.head()
+
+#replacing all column names at once
+ufo_cols = ['city','colors reported','shape reported','state','time']
+ufo.columns = ufo_cols
+ufo.head()
+
+ufo = pd.read_csv('http://bit.ly/uforeports',names=ufo_cols)
+ufo
+#Replacing spaces with underscores for columns
+ufo.columns = ufo.columns.str.replace(' ','_')
+ufo.columns
+
+#Removing columns
+#axis-0 is for rows, axis-1 is for columns
+import pandas as pd
+ufo = pd.read_csv('http://bit.ly/uforeports')
+ufo.head()
+ufo.drop('Colors Reported',axis=1, inplace=True)
+ufo.head()
+ufo.drop(['City','State'], axis=1, inplace=True)
+ufo.head()
+#Removing rows
+ufo.drop([0,1],axis=0,inplace=True)
+ufo.head()
